@@ -5,6 +5,7 @@ using static QALabs.Automation.Core.SeleniumWebDriver;
 
 namespace QALabs.Automation.Tests.Tests;
 
+[TestFixture]
 public class CartTests
 {
     private IWebDriver _driver;
