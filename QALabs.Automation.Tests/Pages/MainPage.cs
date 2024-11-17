@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using QALabs.Automation.Core;
 using QALabs.Automation.Core.Helpers;
 using QALabs.Automation.Core.PageObject;
@@ -9,8 +8,6 @@ namespace QALabs.Automation.Tests.Pages;
 
 public class MainPage : BasePageObject
 {
-    protected readonly IWebDriver _driver;
-    protected readonly WebDriverWait _waiter;
     protected SeleniumWebDriver DriverManager;
 
 

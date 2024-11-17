@@ -10,6 +10,10 @@ namespace QALabs.Automation.Tests.Tests;
 [TestFixture]
 public class AreaAndAccessTests : BaseTest
 {
+    private MainPage _mainPage;
+    private LoginPage _loginPage;
+    private UserListPage _userListPage;
+
     [SetUp]
     public void Setup()
     {
@@ -17,10 +21,6 @@ public class AreaAndAccessTests : BaseTest
         _loginPage = new LoginPage(NativeDriver);
         _userListPage = new UserListPage(NativeDriver);
     }
-
-    private MainPage _mainPage;
-    private LoginPage _loginPage;
-    private UserListPage _userListPage;
 
     [Test]
     [TestCaseSource(typeof(CredantialsTestData), nameof(ValidCredentialsTestData))]

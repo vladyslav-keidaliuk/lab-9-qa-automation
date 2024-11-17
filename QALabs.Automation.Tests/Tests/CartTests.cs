@@ -6,7 +6,7 @@ using static QALabs.Automation.Core.SeleniumWebDriver;
 namespace QALabs.Automation.Tests.Tests;
 
 [TestFixture]
-public class CartTests
+public class CartTests : BaseTest
 {
     private IWebDriver _driver;
     private LoginPage _loginPage;

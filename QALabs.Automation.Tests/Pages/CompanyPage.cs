@@ -13,8 +13,6 @@ public class CompanyPage : MainPage
 
     public UIElement NewProductButton => UIElementByXPath("//a[@class='btn btn-primary']");
     public UIElement NameInput => UIElementByCss("#Name");
-
-
     public UIElement PhoneNumberInput => UIElementByCss("#PhoneNumber");
     public UIElement StreetAddressInput => UIElementByCss("#StreetAddress");
     public UIElement CityInput => UIElementByCss("#City");
