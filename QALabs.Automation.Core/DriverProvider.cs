@@ -1,9 +1,9 @@
-﻿using Core.DriverFactory;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
-using OpenQA.Selenium;
+using QALabs.Automation.Core.DriverFactory;
 
-namespace Core;
+namespace QALabs.Automation.Core;
 
 public enum Browser
 {

@@ -1,7 +1,7 @@
-﻿using Core.Configuration;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
+using QALabs.Automation.Core.Configuration;
 
-namespace Core;
+namespace QALabs.Automation.Core;
 
 public class DriverManager
 {
@@ -20,6 +20,8 @@ public class DriverManager
 
     public static void QuitDriver()
     {
+        SeleniumWebDriver.NativeDriver.Driver.Close();
+
         if (Driver.Value != null)
         {
             Driver.Value.Quit();

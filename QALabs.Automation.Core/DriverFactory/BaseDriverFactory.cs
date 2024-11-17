@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace Core.DriverFactory;
+namespace QALabs.Automation.Core.DriverFactory;
 
 public abstract class BaseDriverFactory
 {

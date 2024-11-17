@@ -1,4 +1,4 @@
-﻿namespace CourseWorkWeb.Tests.UtilityLibrary;
+﻿namespace QALabs.Automation.Tests.UtilityLibrary;
 
 public class PersonalData
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Core.Configuration
+namespace QALabs.Automation.Core.Configuration
 {
     public static class Config
     {

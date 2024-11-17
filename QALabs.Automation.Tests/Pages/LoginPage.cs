@@ -1,33 +1,19 @@
-﻿using Core;
-using CourseWorkWeb.Tests.UtilityLibrary;
-using Internal.BoardGames.Core.Web.PageObject;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using QALabs.Automation.Core.Interaction;
+﻿using QALabs.Automation.Core;
+using QALabs.Automation.Core.Helpers;
 
-namespace CourseWorkWeb.Tests.Pages;
+namespace QALabs.Automation.Tests.Pages;
 
 public class LoginPage : MainPage
 {
-    // private readonly By EmailTextBox = By.CssSelector(
-    //     "#Input_Email");
-
-    public TextElement EmailTextBox => TextElementByCss("#Input_Email");
-
-    public TextElement PasswordTextBox => TextElementByCss("#Input_Password");
-
-    public UIElement LogInButton => UIElementByCss("#login-submit");
-
-    private readonly
-        By LoginForm = By.XPath("#account");
-
-    public TextElement LockedOut => TextElementByCss("body > div > main > header > h1");
-    
     public LoginPage(SeleniumWebDriver _driver) : base(_driver)
     {
-        
     }
+
+    public TextElement EmailTextBox => TextElementByCss("#Input_Email");
+    public TextElement PasswordTextBox => TextElementByCss("#Input_Password");
+    public UIElement LogInButton => UIElementByCss("#login-submit");
+
+    public TextElement LockedOut => TextElementByCss("body > div > main > header > h1");
 
     public bool Login(string email, string password)
     {
@@ -39,25 +25,16 @@ public class LoginPage : MainPage
 
             try
             {
-                string username = UsernameInsideSystemAfterLogin.GetText();
+                var username = UsernameInsideSystemAfterLogin.GetText();
                 if (username.Equals($"Hello {email}!"))
-                {
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
             catch (Exception e)
             {
-                string lockedOut = LockedOut.GetValue();
-                if (lockedOut.Equals("Locked Out"))
-                {
-                    return false;
-                }
+                var lockedOut = LockedOut.GetValue();
+                if (lockedOut.Equals("Locked Out")) return false;
             }
-            
         }
         catch (Exception e)
         {

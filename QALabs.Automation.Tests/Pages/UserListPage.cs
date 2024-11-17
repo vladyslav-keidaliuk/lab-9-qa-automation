@@ -1,41 +1,32 @@
-﻿using Core;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
+using QALabs.Automation.Core;
 
-namespace CourseWorkWeb.Tests.Pages;
+namespace QALabs.Automation.Tests.Pages;
 
 public class UserListPage : MainPage
 {
-    
     public UserListPage(SeleniumWebDriver driver) : base(driver)
     {
-        
     }
-    
+
     public bool LockUnlockUserWithEmail(string email)
     {
-        bool status = false;
-        Thread.Sleep(2000);
+        var status = false;
         IList<IWebElement> rows = SeleniumWebDriver.NativeDriver.FindElements(By.CssSelector(".table tbody tr"));
-        foreach (IWebElement row in rows)
+        foreach (var row in rows)
         {
             Thread.Sleep(1000);
-            IWebElement emailCell = row.FindElement(By.XPath("./td[2]"));
-            
-            string getEmail = emailCell.Text;
-            
+            var emailCell = row.FindElement(By.XPath("./td[2]"));
+
+            var getEmail = emailCell.Text;
+
             if (getEmail.Equals(email, StringComparison.OrdinalIgnoreCase))
             {
-                
-                IWebElement Cell = row.FindElement(By.XPath("./td[5]"));
-                Cell.Click();
-                Thread.Sleep(5000);
+                row.FindElement(By.XPath("./td[5]")).Click();
                 return true;
             }
         }
+
         return status;
     }
-    
-    
 }

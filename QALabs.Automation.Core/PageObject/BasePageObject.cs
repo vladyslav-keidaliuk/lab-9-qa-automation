@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core;
 using OpenQA.Selenium;
-using QALabs.Automation.Core.Interaction;
+using QALabs.Automation.Core.Helpers;
 
 
 namespace Internal.BoardGames.Core.Web.PageObject

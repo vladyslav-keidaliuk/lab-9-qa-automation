@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium.Edge;
-using OpenQA.Selenium;
-using Core.Configuration;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Edge;
+using QALabs.Automation.Core.Configuration;
 
-namespace Core.DriverFactory;
+namespace QALabs.Automation.Core.DriverFactory;
 
 public class EdgeDriverFactory : BaseDriverFactory
 {

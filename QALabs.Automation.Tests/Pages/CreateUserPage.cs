@@ -1,70 +1,33 @@
-﻿using Core;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
+using QALabs.Automation.Core;
+using QALabs.Automation.Core.Helpers;
+using static QALabs.Automation.Core.SeleniumWebDriver;
 
-namespace CourseWorkWeb.Tests.Pages;
+namespace QALabs.Automation.Tests.Pages;
 
 public class CreateUserPage : MainPage
 {
-    private readonly
-        By NewProductButton =
-            By.CssSelector(
-                "body > div > main > div > div > div.col-6.text-end > a");
-
-    private readonly 
-        By EmailInput = 
-            By.CssSelector("#Input_Email");
-
-    private readonly
-        By NameInput =
-            By.CssSelector(
-                "#Input_Name");
-
-    private readonly
-        By PhoneNumberInput =
-            By.CssSelector(
-                "#Input_PhoneNumber");
-
-    private readonly 
-        By PasswordInput = 
-            By.CssSelector("#Input_Password");
-
-    private readonly 
-        By ConfirmPasswordInput = 
-            By.CssSelector("#Input_ConfirmPassword");
-    
-    private readonly
-        By StreetAddressInput =
-            By.CssSelector(
-                "#Input_StreetAddress");
-
-    private readonly
-        By CityInput =
-            By.CssSelector(
-                "#Input_City");
-
-    private readonly
-        By StateInput =
-            By.CssSelector(
-                "#Input_State");
-
-    private readonly
-        By PostalCodeInput =
-            By.CssSelector(
-                "#Input_PostalCode");
-
-    private readonly
-        By RegisterButton =
-            By.CssSelector(
-                "#registerSubmit");
     public CreateUserPage(SeleniumWebDriver driver) : base(driver)
     {
     }
 
+    public UIElement NewUserButton => UIElementByXPath("//a[@class='btn btn-primary']");
+
+    public UIElement EmailInput => UIElementByCss("#Input_Email");
+    public UIElement NameInput => UIElementByCss("#Input_Name");
+    public UIElement PhoneNumberInput => UIElementByCss("#Input_PhoneNumber");
+    public UIElement PasswordInput => UIElementByCss("#Input_Password");
+    public UIElement ConfirmPasswordInput => UIElementByCss("#Input_ConfirmPassword");
+    public UIElement StreetAddressInput => UIElementByCss("#Input_StreetAddress");
+    public UIElement CityInput => UIElementByCss("#Input_City");
+    public UIElement StateInput => UIElementByCss("#Input_State");
+    public UIElement PostalCodeInput => UIElementByCss("#Input_PostalCode");
+    public UIElement RegisterButton => UIElementByCss("#registerSubmit");
+    public UIElement RoleOption => UIElementByXPath("//*[@id='Input_Role']/option[4]");
+
     public void NewCompanyButtonClick()
     {
-        _waiter.Until(d => d.FindElement(NewProductButton)).Click();
+        NativeDriver.FindElement(NewUserButton).Click();
     }
 
     public void NewCustomerCreate(
@@ -79,68 +42,36 @@ public class CreateUserPage : MainPage
         string postalCode
     )
     {
+        NativeDriver.FindElement(EmailInput).SendKeys(email);
+        NativeDriver.FindElement(NameInput).SendKeys(name);
+        NativeDriver.FindElement(PhoneNumberInput).SendKeys(phoneNumber);
+        NativeDriver.FindElement(PasswordInput).SendKeys(password);
+        NativeDriver.FindElement(ConfirmPasswordInput).SendKeys(confirmPassword);
+        NativeDriver.FindElement(StreetAddressInput).SendKeys(streetAddress);
+        NativeDriver.FindElement(CityInput).SendKeys(city);
+        NativeDriver.FindElement(StateInput).SendKeys(state);
+        NativeDriver.FindElement(PostalCodeInput).SendKeys(postalCode);
+        NativeDriver.FindElement(RoleOption).Click();
 
-                
-        _waiter.Until(d => d.FindElement(EmailInput)).SendKeys(email);
-        _waiter.Until(d => d.FindElement(NameInput)).SendKeys(name);
-        _waiter.Until(d => d.FindElement(PhoneNumberInput)).SendKeys(phoneNumber);
-        _waiter.Until(d => d.FindElement(PasswordInput)).SendKeys(password);
-        _waiter.Until(d => d.FindElement(ConfirmPasswordInput)).SendKeys(confirmPassword);
-        _waiter.Until(d => d.FindElement(StreetAddressInput)).SendKeys(streetAddress);
-        _waiter.Until(d => d.FindElement(CityInput)).SendKeys(city);
-        _waiter.Until(d => d.FindElement(StateInput)).SendKeys(state);
-        _waiter.Until(d => d.FindElement(PostalCodeInput)).SendKeys(postalCode);
 
-        _waiter.Until(d => d.FindElement(RegisterButton)).Click();
-        
+        NativeDriver.FindElement(RegisterButton).Click();
     }
 
     public bool CheckUserExist(string email)
     {
-        bool status = false;
+        var status = false;
 
         Thread.Sleep(2000);
-        IList<IWebElement> rows = _driver.FindElements(By.CssSelector(".table tbody tr"));
-        foreach (IWebElement row in rows)
+        IList<IWebElement> rows = NativeDriver.FindElements(By.CssSelector(".table tbody tr"));
+        foreach (var row in rows)
         {
-            IWebElement userEmailCell = row.FindElement(By.XPath("./td[2]"));
+            var userEmailCell = row.FindElement(By.XPath("./td[2]"));
 
-            string userEmail = userEmailCell.Text;
+            var userEmail = userEmailCell.Text;
 
-            if (userEmail.Equals(email, StringComparison.OrdinalIgnoreCase))
-            {
-                status = true;
-            }
+            if (userEmail.Equals(email, StringComparison.OrdinalIgnoreCase)) status = true;
         }
 
         return status;
     }
-    
-
-    // public bool DeleteCompany(string name)
-    // {
-    //     bool status = false;
-    //
-    //     Thread.Sleep(2000);
-    //     IList<IWebElement> rows = _driver.FindElements(By.CssSelector(".table tbody tr"));
-    //     foreach (IWebElement row in rows)
-    //     {
-    //         Thread.Sleep(1000);
-    //         IWebElement categoryNameCell = row.FindElement(By.XPath("./td[1]"));
-    //
-    //         string categoryName = categoryNameCell.Text;
-    //
-    //         if (categoryName.Equals(name, StringComparison.OrdinalIgnoreCase))
-    //         {
-    //             IWebElement Cell = row.FindElement(By.XPath("./td[6]/div/a[2]"));
-    //             Cell.Click();
-    //             Thread.Sleep(1000);
-    //             _waiter.Until(d => d.FindElement(DeleteButton)).Click();
-    //             return true;
-    //         }
-    //     }
-    //
-    //     return status;
-    // }
-    
 }

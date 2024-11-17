@@ -1,89 +1,34 @@
-﻿using Core;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
+using QALabs.Automation.Core;
+using QALabs.Automation.Core.Helpers;
+using static QALabs.Automation.Core.SeleniumWebDriver;
 
-namespace CourseWorkWeb.Tests.Pages;
+namespace QALabs.Automation.Tests.Pages;
 
 public class ProductAdminPage : MainPage
 {
-    private readonly
-        By NewProductButton =
-            By.CssSelector(
-                "body > div > main > div > div > div.col-6.text-end > a");
-
-    private readonly
-        By TitleInput =
-            By.CssSelector(
-                "#Product_Title");
-
-    private readonly
-        By DescriptionInput =
-            By.CssSelector(
-                "#Product_Description");
-
-    private readonly
-        By ISBNInput =
-            By.CssSelector(
-                "#Product_ISBN");
-
-    private readonly
-        By AuthorInput =
-            By.CssSelector(
-                "#Product_Author");
-
-    private readonly
-        By ListPriceInput =
-            By.CssSelector(
-                "#Product_ListPrice");
-
-    private readonly
-        By PriceInput =
-            By.CssSelector(
-                "#Product_Price");
-
-    private readonly
-        By Price50Input =
-            By.CssSelector(
-                "#Product_Price50");
-
-    private readonly
-        By Price100Input =
-            By.CssSelector(
-                "#Product_Price100");
-
-    private readonly
-        By CategoryIdSelector =
-            By.CssSelector(
-                "#Product_CategoryId");
-
-    private readonly
-        By CategoryIdSelectFiction =
-            By.CssSelector(
-                "#Product_CategoryId > option:nth-child(8)");
-
-    private readonly
-        By CreateButton =
-            By.CssSelector(
-                "body > div > main > div > div.card-body.p-4 > form > div > div.col-10 > div > div.row > div:nth-child(1) > button");
-
-    private readonly
-        By DeleteButton =
-            By.CssSelector("body > div > main > form > div > div:nth-child(10) > div:nth-child(1) > button");
-
-    private readonly
-        By UpdateButton =
-            By.CssSelector(
-                "body > div > main > div > div.card-body.p-4 > form > div > div.col-10 > div > div.row > div:nth-child(1) > button");
-
-
     public ProductAdminPage(SeleniumWebDriver driver) : base(driver)
     {
     }
 
+    public UIElement CreateNewProductButton => UIElementByXPath("//a[@class='btn btn-primary']");
+    public UIElement TitleInput => UIElementByCss("#Product_Title");
+    public UIElement DescriptionInput => UIElementByCss("#Product_Description");
+    public UIElement ISBNInput => UIElementByCss("#Product_ISBN");
+    public UIElement AuthorInput => UIElementByCss("#Product_Author");
+    public UIElement ListPriceInput => UIElementByCss("#Product_ListPrice");
+    public UIElement PriceInput => UIElementByCss("#Product_Price");
+    public UIElement Price50Input => UIElementByCss("#Product_Price50");
+    public UIElement Price100Input => UIElementByCss("#Product_Price100");
+    public UIElement CategoryIdSelector => UIElementByCss("#Product_CategoryId");
+    public UIElement CategoryIdSelectFiction => UIElementByCss("#Product_CategoryId > option:nth-child(7)");
+    public UIElement CreateButton => UIElementByXPath("//button[contains(text(), 'Create')]");
+    public UIElement DeleteButton => UIElementByXPath("//button[contains(text(), 'Delete')]");
+    public UIElement UpdateButton => UIElementByXPath("//button[contains(text(), 'Update')]");
+
     public void NewProductButtonClick()
     {
-        _waiter.Until(d => d.FindElement(NewProductButton)).Click();
+        NativeDriver.FindElement(CreateNewProductButton).Click();
     }
 
     public bool NewProductCreate(
@@ -97,44 +42,40 @@ public class ProductAdminPage : MainPage
         string price100
     )
     {
-        bool status = false;
+        var status = false;
 
-        _waiter.Until(d => d.FindElement(TitleInput)).SendKeys(title);
-        _waiter.Until(d => d.FindElement(DescriptionInput)).SendKeys(description);
-        _waiter.Until(d => d.FindElement(ISBNInput)).SendKeys(ISBN);
-        _waiter.Until(d => d.FindElement(AuthorInput)).SendKeys(author);
+        NativeDriver.FindElement(TitleInput).SendKeys(title);
+        NativeDriver.FindElement(DescriptionInput).SendKeys(description);
+        NativeDriver.FindElement(ISBNInput).SendKeys(ISBN);
+        NativeDriver.FindElement(AuthorInput).SendKeys(author);
 
-        _waiter.Until(d => d.FindElement(ListPriceInput)).Clear();
-        _waiter.Until(d => d.FindElement(ListPriceInput)).SendKeys(listPrice);
+        NativeDriver.FindElement(ListPriceInput).Clear();
+        NativeDriver.FindElement(ListPriceInput).SendKeys(listPrice);
 
-        _waiter.Until(d => d.FindElement(PriceInput)).Clear();
-        _waiter.Until(d => d.FindElement(PriceInput)).SendKeys(price);
+        NativeDriver.FindElement(PriceInput).Clear();
+        NativeDriver.FindElement(PriceInput).SendKeys(price);
 
-        _waiter.Until(d => d.FindElement(Price50Input)).Clear();
-        _waiter.Until(d => d.FindElement(Price50Input)).SendKeys(price50);
+        NativeDriver.FindElement(Price50Input).Clear();
+        NativeDriver.FindElement(Price50Input).SendKeys(price50);
 
-        _waiter.Until(d => d.FindElement(Price100Input)).Clear();
-        _waiter.Until(d => d.FindElement(Price100Input)).SendKeys(price100);
+        NativeDriver.FindElement(Price100Input).Clear();
+        NativeDriver.FindElement(Price100Input).SendKeys(price100);
 
-        _waiter.Until(d => d.FindElement(CategoryIdSelector)).Click();
+        NativeDriver.FindElement(CategoryIdSelector).Click();
         Thread.Sleep(500);
-        _waiter.Until(d => d.FindElement(CategoryIdSelectFiction)).Click();
+        NativeDriver.FindElement(CategoryIdSelectFiction).Click();
+        Thread.Sleep(500);
+        NativeDriver.FindElement(CreateButton).Click();
         Thread.Sleep(500);
 
-        _waiter.Until(d => d.FindElement(CreateButton)).Click();
-
-        Thread.Sleep(2000);
-        IList<IWebElement> rows = _driver.FindElements(By.CssSelector(".table tbody tr"));
-        foreach (IWebElement row in rows)
+        IList<IWebElement> rows = NativeDriver.FindElements(By.CssSelector(".table tbody tr"));
+        foreach (var row in rows)
         {
-            IWebElement categoryNameCell = row.FindElement(By.XPath("./td[1]"));
+            var categoryNameCell = row.FindElement(By.XPath("./td[1]"));
 
-            string categoryName = categoryNameCell.Text;
+            var categoryName = categoryNameCell.Text;
 
-            if (categoryName.Equals(title, StringComparison.OrdinalIgnoreCase))
-            {
-                status = true;
-            }
+            if (categoryName.Equals(title, StringComparison.OrdinalIgnoreCase)) status = true;
         }
 
         return status;
@@ -142,24 +83,23 @@ public class ProductAdminPage : MainPage
 
     public bool EditTitleInProduct(string name, string newName)
     {
-        bool status = false;
+        var status = false;
 
-        Thread.Sleep(2000);
-        IList<IWebElement> rows = _driver.FindElements(By.CssSelector(".table tbody tr"));
-        foreach (IWebElement row in rows)
+        IList<IWebElement> rows = NativeDriver.FindElements(By.CssSelector(".table tbody tr"));
+        foreach (var row in rows)
         {
-            Thread.Sleep(1000);
-            IWebElement productNameCell = row.FindElement(By.XPath("./td[1]"));
-            string productName = productNameCell.Text;
+            var productNameCell = row.FindElement(By.XPath("./td[1]"));
+
+            var productName = productNameCell.Text;
+
             if (productName.Equals(name, StringComparison.OrdinalIgnoreCase))
             {
-                IWebElement Cell = row.FindElement(By.XPath("./td[6]/div/a[1]"));
-                Cell.Click();
-                Thread.Sleep(1000);
-                _waiter.Until(d => d.FindElement(TitleInput)).Clear();
-                _waiter.Until(d => d.FindElement(TitleInput)).SendKeys(newName);
+                row.FindElement(By.XPath("./td[6]/div/a[1]")).Click();
 
-                _waiter.Until(d => d.FindElement(UpdateButton)).Click();
+                NativeDriver.FindElement(TitleInput).Clear();
+                NativeDriver.FindElement(TitleInput).SendKeys(newName);
+
+                NativeDriver.FindElement(UpdateButton).Click();
                 return true;
             }
         }

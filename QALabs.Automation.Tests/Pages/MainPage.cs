@@ -1,10 +1,11 @@
-﻿using Core;
-using Internal.BoardGames.Core.Web.PageObject;
+﻿using Internal.BoardGames.Core.Web.PageObject;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using QALabs.Automation.Core.Interaction;
+using QALabs.Automation.Core;
+using QALabs.Automation.Core.Helpers;
+using static QALabs.Automation.Core.SeleniumWebDriver;
 
-namespace CourseWorkWeb.Tests.Pages;
+namespace QALabs.Automation.Tests.Pages;
 
 public class MainPage : BasePageObject
 {
@@ -12,9 +13,15 @@ public class MainPage : BasePageObject
     protected readonly WebDriverWait _waiter;
     protected SeleniumWebDriver DriverManager;
 
+
+    public MainPage(SeleniumWebDriver driverManager)
+    {
+        DriverManager = driverManager;
+    }
+
     public UIElement LoginButton => UIElementByCss("#login");
     public UIElement RegisterButton => UIElementByCss("#register");
-    public UIElement CartButton => UIElementByXPath("//a[contains(text(),'Content Management')]");
+    public UIElement CartButton => UIElementByXPath("//i[@class='bi bi-cart']");
     public UIElement HomeButton => UIElementByXPath("//a[contains(text(),'Home')]");
     public UIElement ManageOrderButton => UIElementByXPath("//a[contains(text(),'Manage Order')]");
     public UIElement ContentManagementDropdown => UIElementByXPath("//a[contains(text(),'Content Management')]");
@@ -24,23 +31,17 @@ public class MainPage : BasePageObject
     public UIElement ContentManagementCreateUserButton => UIElementByXPath("//a[contains(text(),'Create User')]");
     public UIElement ContentManagementManageUserButton => UIElementByXPath("//a[contains(text(),'Manage User')]");
     public UIElement AddToCartButton => UIElementByXPath("//button[contains(text(), 'Add to Cart')]");
-    public UIElement DetailsNButton(int n) => UIElementByXPath($"(//a[contains(text(),'Details')])[{n}]");
-
-
-    // public TextElement PasswordTextBox => TextElementByCss("#Input_Password");
-
     public UIElement UsernameInsideSystemAfterLogin => UIElementByCss("#manage");
     public UIElement LogOutButton => UIElementByCss("#logout");
 
-    // public MainPage(IWebDriver webDriver)
-    // {
-    //     _driver = webDriver;
-    //     _waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(8));
-    // }
-
-    public MainPage(SeleniumWebDriver driverManager)
+    public UIElement DetailsNButton(int n)
     {
-        this.DriverManager = driverManager;
+        return UIElementByXPath($"(//a[contains(text(),'Details')])[{n}]");
+    }
+
+    public UIElement TitleProductInCart(string title)
+    {
+        return UIElementByXPath($"//h5/strong[contains(text(), '{title}')]");
     }
 
     public void LoginButtonClick()
@@ -65,7 +66,7 @@ public class MainPage : BasePageObject
 
     public void ManageOrderClick()
     {
-       ManageOrderButton.Click();
+        ManageOrderButton.Click();
     }
 
     public void ContentManagementDropdownClick()
@@ -97,46 +98,32 @@ public class MainPage : BasePageObject
     {
         ContentManagementManageUserButton.Click();
     }
-    
+
     public void LogOutButtonClick()
     {
         LogOutButton.Click();
     }
-    
+
     public void DetailsButtonNClick(int n)
     {
         DetailsNButton(n).Click();
-        Thread.Sleep(500);
     }
 
     public void AddToCartButtonClick()
     {
         AddToCartButton.Click();
-        Thread.Sleep(500);
     }
 
     public void ScrollDown(int pixels)
     {
-        IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
+        var js = (IJavaScriptExecutor)NativeDriver.Driver;
         js.ExecuteScript($"window.scrollBy(0, {pixels});");
-        Thread.Sleep(500);
     }
 
     public bool CheckThatBookExistInsideCart(string title)
     {
         CartButton.Click();
-        for (int i = 1; i < 6; i++)
-        {
-            string titleatCart = _waiter.Until(d => d.FindElement(By.
-                    CssSelector($"body > div > main > form > div.card-body.my-4 > div.row.mb-3.pb-3 > div.col-md-10.offset-md-1 > div:nth-child({i}) > div.col-12.col-lg-6.pt-md-3 > h5 > strong"))
-                .Text);
-            if (title.Equals(titleatCart))
-            {
-                return true;
-            }
-        }
-        
-        return false;
+
+        return NativeDriver.IsElementDisplayed(TitleProductInCart(title).By);
     }
-    
 }

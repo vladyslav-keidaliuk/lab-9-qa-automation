@@ -1,76 +1,73 @@
-﻿using Core;
-using CourseWorkWeb.Tests.Pages;
-using CourseWorkWeb.Tests.UtilityLibrary;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using QALabs.Automation.Tests.Pages;
+using QALabs.Automation.Tests.UtilityLibrary;
+using static QALabs.Automation.Core.SeleniumWebDriver;
 
-namespace CourseWorkWeb.Tests.CourseWorkWebTests
+namespace QALabs.Automation.Tests.Tests;
+
+public class CartTests
 {
-    public class CartTests
+    private IWebDriver _driver;
+    private LoginPage _loginPage;
+    private MainPage _mainPage;
+
+
+    [SetUp]
+    public void Setup()
     {
-        private IWebDriver driver;
-        private MainPage mainPage;
-        private LoginPage loginPage;
+        NativeDriver.Driver.Manage().Window.Maximize();
+        _mainPage = new MainPage(NativeDriver);
+        _loginPage = new LoginPage(NativeDriver);
+    }
 
+    [Test]
+    [Order(1)]
+    public void Add5BookToCart()
+    {
+        SiteNavigation.GoToBookstore(NativeDriver);
 
-        [SetUp]
-        public void Setup()
+        _mainPage.LoginButtonClick();
+        var loginStatus = _loginPage.Login(PersonalData.CustomerUsername, PersonalData.CustomerPassword);
+        if (loginStatus)
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            mainPage = new MainPage(SeleniumWebDriver.NativeDriver);
-            loginPage = new LoginPage(SeleniumWebDriver.NativeDriver);
-        }
-
-        [Test, Order(1)]
-        public void Add5BookToCart()
-        {
-            driver.Url = "https://localhost:7217/";
-            mainPage.LoginButtonClick();
-            bool status = loginPage.Login(PersonalData.CustomerUsername, PersonalData.CustomerPassword);
-            if (status)
+            for (var i = 1; i < 6; i++)
             {
-                for (int i = 1; i < 6; i++)
-                {
-                    mainPage.ScrollDown(500);
-                    mainPage.DetailsButtonNClick(i);
-                    mainPage.AddToCartButtonClick();
-                }
-
-                status = true;
+                _mainPage.ScrollDown(500);
+                _mainPage.DetailsButtonNClick(i);
+                _mainPage.AddToCartButtonClick();
             }
 
-            mainPage.LogOutButtonClick();
-            Assert.That(status, Is.EqualTo(true));
+            loginStatus = true;
         }
 
-        [Test, Order(2)]
-        [TestCase("1984")]
-        [TestCase("ЛЮДИНА В ПОШУКАХ СПРАВЖНЬОГО СЕНСУ. ПСИХОЛОГ У КОНЦТАБОРІ")]
-        [TestCase("ENGLISH GRAMMAR IN USE 5TH EDITION WITH ANSWERS")]
-        [TestCase("КАФЕ НА КРАЮ СВІТУ - СТРЕЛЕКІ ДЖ. П.")]
-        [TestCase("ОДНА З ДІВЧАТ")]
-        public void CheckThat5BookToCartAddedReturnTrue(string title)
+        _mainPage.LogOutButtonClick();
+        Assert.That(loginStatus, Is.EqualTo(true));
+    }
+
+    [Test]
+    [Order(2)]
+    [TestCase("Людина в пошуках справжнього сенсу. Психолог у концтаборі")]
+    [TestCase("English Grammar in Use 5th Edition with Answers")]
+    [TestCase("Кафе на краю світу - Стрелекі Дж. П.")]
+    [TestCase("Одна з дівчат")]
+    [TestCase("Третій візит до кафе на краю світу")]
+    public void CheckThat5BookToCartAddedReturnTrue(string title)
+    {
+        SiteNavigation.GoToBookstore(NativeDriver);
+
+        _mainPage.LoginButtonClick();
+
+        var bookExist = false;
+        var status = _loginPage.Login(PersonalData.CustomerUsername, PersonalData.CustomerPassword);
+
+        if (status)
         {
-            driver.Url = "https://localhost:7217/";
-            mainPage.LoginButtonClick();
-            bool bookExist = false;
-            bool status = loginPage.Login(PersonalData.CustomerUsername, PersonalData.CustomerPassword);
-            if (status)
-            {
-                mainPage.CartButtonClick();
-                bookExist = mainPage.CheckThatBookExistInsideCart(title);
-            }
-
-            mainPage.LogOutButtonClick();
-            Assert.That(bookExist, Is.EqualTo(true));
+            _mainPage.CartButtonClick();
+            bookExist = _mainPage.CheckThatBookExistInsideCart(title);
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Close();
-            driver.Quit();
-        }
+        _mainPage.LogOutButtonClick();
+
+        Assert.That(bookExist, Is.EqualTo(true));
     }
 }

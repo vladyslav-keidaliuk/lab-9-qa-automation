@@ -1,8 +1,8 @@
-﻿using Core.Configuration;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
+using QALabs.Automation.Core.Configuration;
 
-namespace Core.DriverFactory;
+namespace QALabs.Automation.Core.DriverFactory;
 
 public class ChromeDriverFactory : BaseDriverFactory
 {

@@ -1,7 +1,7 @@
 ﻿using NLog;
 using OpenQA.Selenium;
 
-namespace Core.Logger;
+namespace QALabs.Automation.Core.Logger;
 
 public static class CustomLogger
 {
