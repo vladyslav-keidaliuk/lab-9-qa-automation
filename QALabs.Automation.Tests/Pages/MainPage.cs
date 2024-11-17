@@ -1,8 +1,8 @@
-﻿using Internal.BoardGames.Core.Web.PageObject;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using QALabs.Automation.Core;
 using QALabs.Automation.Core.Helpers;
+using QALabs.Automation.Core.PageObject;
 using static QALabs.Automation.Core.SeleniumWebDriver;
 
 namespace QALabs.Automation.Tests.Pages;

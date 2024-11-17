@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using Core;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using QALabs.Automation.Core.Helpers;
 
-
-namespace Internal.BoardGames.Core.Web.PageObject
+namespace QALabs.Automation.Core.PageObject
 {
     public abstract class BasePageObject
     {
@@ -44,16 +41,6 @@ namespace Internal.BoardGames.Core.Web.PageObject
             return locator;
         }
 
-        // public void TryAcceptPopup()
-        // {
-        //     SeleniumWebDriver.NativeDriver.TryAcceptPopup();
-        // }
-
-        // public void RefreshPage()
-        // {
-        //     SeleniumWebDriver.NativeDriver.RefreshPage();
-        // }
-
         public void WaitForCountEquals(int elementsCount, int expectedCount)
         {
             WaitHelper.WaitForEquals(() => elementsCount, expectedCount);
@@ -71,95 +58,5 @@ namespace Internal.BoardGames.Core.Web.PageObject
 
         protected UIElement UIElementById(string id) => Locator(new UIElement(By.Id(id)));
 
-        // protected UIElement UiElementByXPathInFrame(string xpath, UiElement parent = null) => Locator(new UIElement(By.XPath(xpath))
-        // {
-        //     InFrame = true,
-        //     Parent = parent,
-        // });
-        //
-        // protected UIElement UiElementByCssInFrame(string css, UiElement parent = null) => Locator(new UIElement(By.CssSelector(css))
-        // {
-        //     InFrame = true,
-        //     Parent = parent,
-        // });
-        //
-        // protected UIElement UiElementByIdInFrame(string id, UiElement parent = null) => Locator(new UIElement(By.Id(id))
-        // {
-        //     InFrame = true,
-        //     Parent = parent,
-        // });
-
-        // protected SelectElement SelectElementByXPath(string xpath) => Locator(new SelectElement(By.XPath(xpath)));
-        //
-        // protected SelectElement SelectElementById(string id) => Locator(new SelectElement(By.Id(id)));
-        //
-        // protected SelectElement SelectElementByCss(string css) => Locator(new SelectElement(By.CssSelector(css)));
-        //
-        // protected SelectElement SelectElementByIdInFrame(string id, UiElement parent = null) => Locator(new SelectElement(By.Id(id))
-        // {
-        //     InFrame = true,
-        //     Parent = parent,
-        // });
-        //
-        // protected FileInput FileInputByXPath(string xpath) => Locator(new FileInput(By.XPath(xpath)));
-        //
-        // protected FileInput FileInputById(string id) => Locator(new FileInput(By.Id(id)));
-        //
-        // protected TableBase FindTableByXPath(string xpath) => Locator(new TableBase(By.XPath(xpath)));
-        //
-        // protected void SwitchToLastWindow(bool isPreviousWindowExist = true)
-        // {
-        //     Driver.SwitchToLastWindow(isPreviousWindowExist);
-        // }
-        //
-        // protected bool IsPageLast()
-        // {
-        //     return Driver.IsPageLast();
-        // }
-        //
-        // protected string CurrentUrl()
-        // {
-        //     return Driver.CurrentUrl();
-        // }
-        //
-        // protected void PressActionKey(string keys)
-        // {
-        //     Driver.PressKey(keys);
-        // }
-        //
-        // protected bool WaitForPageLoadComplete(int timeInSec = 5)
-        // {
-        //     return Driver.WaitForPageLoad(timeInSec);
-        // }
-        //
-        // protected bool WaitForAjaxComplete(int timeInSec = 5)
-        // {
-        //     return Driver.WaitForAjax(timeInSec);
-        // }
-        //
-        // protected bool AcceptPopupIfPresent()
-        // {
-        //     return Driver.AcceptPopupIfPresent();
-        // }
-        //
-        // protected void WaitForWindowCountToBe(int windowCount, int timeOutInSec = 3)
-        // {
-        //     WaitHelper.WaitForCondition(() => Driver.NativeDriver.WindowHandles.Count == windowCount, timeOutInSec);
-        // }
-        //
-        // protected string GetUrlText()
-        // {
-        //     return Driver.GetUrl();
-        // }
-        //
-        // protected List<string> GetWindowHandles()
-        // {
-        //     return Driver.GetWindowHandles();
-        // }
-        //
-        // protected void SwitchToWindow(string switchWindow)
-        // {
-        //     Driver.SwitchToWindow(switchWindow);
-        // }
     }
 }

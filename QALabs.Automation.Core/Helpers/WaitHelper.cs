@@ -4,44 +4,6 @@
     {
         private static readonly TimeSpan DefaultTimeStep = TimeSpan.FromMilliseconds(100);
 
-        public static bool WaitForCondition(Func<bool> condition, int timeoutInSeconds = 15, bool throwTimeoutException = false, string errorMessage = null, TimeSpan? polling = null)
-        {
-            polling ??= DefaultTimeStep;
-            var stopDate = DateTime.Now.Add(TimeSpan.FromSeconds(timeoutInSeconds));
-
-            while (stopDate > DateTime.Now)
-            {
-                try
-                {
-                    if (condition.Invoke())
-                    {
-                        return true;
-                    }
-
-                    if (polling.Value.TotalSeconds > timeoutInSeconds)
-                    {
-                        break;
-                    }
-
-                    Thread.Sleep(polling.Value);
-                }
-                catch (Exception e)
-                {
-                    if (errorMessage == null)
-                    {
-                        errorMessage = e.Message;
-                    }
-                }
-            }
-
-            if (throwTimeoutException)
-            {
-                throw new TimeoutException(errorMessage);
-            }
-
-            return false;
-        }
-
         public static T WaitForEquals<T>(Func<T> func, T expected, int timeoutInSec = 10)
         {
             return WaitForActualResult(func, expected, EqualityComparer<T>.Default.Equals, timeoutInSec);
